@@ -3,6 +3,7 @@
 # curl -X POST https://api.opentreeoflife.org/v3/studies/find_trees -H "content-type:application/json" -d '{"property":"ot:ottTaxonName","value":"Apteryx australis","verbose":true}'
 import json
 import requests
+import curlify
 
 from opentree import OT
 
@@ -15,8 +16,10 @@ print("There should be {x} studies in the response".format(x=len(correct_answer[
 payload = {'property':'ot:ottTaxonName', 'value':'Apteryx australis', 'verbose':'true'}
 headers =  {"Content-Type":"application/json"}
 r = requests.post('https://api.opentreeoflife.org/v3/studies/find_trees',
-                   params=json.dumps(payload),
+                   data=json.dumps(payload),
                    headers=headers)
+
+print(curlify.to_curl(r.request)) 
 data = r.json()
 ## Try with OS / BASH CURL?
 
