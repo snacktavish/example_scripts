@@ -23,24 +23,17 @@ data = r.json()
 #data = json.load(open("Aptyrex_trees.txt", r))
 #print(data)
 
-temp_list = []
+Ott_list = []
 for i in data['matched_studies']:
     for x in i:
         x = i['ot:studyId']
-        if x not in temp_list:
-            temp_list.append(x)
+        if x not in Ott_list:
+            Ott_list.append(x)
 
 
-Ott_list = []
-for i in temp_list:
-    for word in i:
-        for letter in word:
-            if letter == 'o':
-                Ott_list.append(i)
-            else: break
-            
         
 #print(Ott_list)
+
 print("There are  {x} studies in this list.".format(x = len(Ott_list)))
 
 
