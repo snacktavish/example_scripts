@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 
-# curl -X POST https://api.opentreeoflife.org/v3/studies/find_trees -H "content-type:application/json" -d '{"property":"ot:ottTaxonName","value":"Apteryx australis","verbose":true}' > Apyterx.json
-
+# curl -X POST https://api.opentreeoflife.org/v3/studies/find_trees -H "content-type:application/json" -d '{"property":"ot:ottTaxonName","value":"Apteryx australis","verbose":true}'
 import json
+import requests
+
+from opentree import OT
+
 
 correct_answer = json.load(open("Apyterx.json"))
 
 print("There should be {x} studies in the response".format(x=len(correct_answer['matched_studies'])))
 
 
-
-import requests
-import json
-
 payload = {'property':'ot:ottTaxonName', 'value':'Apteryx australis', 'verbose':'true'}
 headers =  {"Content-Type":"application/json"}
-r = requests.post('https://api.opentreeoflife.org/v3/studies/find_trees',  params=json.dumps(payload), headers=headers)
+r = requests.post('https://api.opentreeoflife.org/v3/studies/find_trees',
+                   params=json.dumps(payload),
+                   headers=headers)
 data = r.json()
 ## Try with OS / BASH CURL?
 
@@ -41,3 +42,8 @@ for i in temp_list:
         
 #print(Ott_list)
 print("There are  {x} studies in this list.".format(x = len(Ott_list)))
+
+
+pyot_resp = OT.find_trees(value='Apteryx australis', search_property='ot:ottTaxonName', verbose = True)
+
+print("There are  {x} studies using python opentree.".format(x = len(pyot_resp.response_dict['matched_studies'])))
