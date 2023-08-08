@@ -10,22 +10,27 @@ with open(masterfile, 'r') as base:
     base = csv.reader(base)
     next(base)
     ## Generate line-by-line name search ##
-    final_list = {}
-    n = 0
+    Mixed_OTT_list = {}
+    request_num = 0
+    tally = 0
+    diff = 0
     for line in base:
-        n += 1
+        request_num += 1
+        
         ## Search for CLO & OTT Name
         for check in range(2):
-            n += check
+            request_num += check
+            
             name = line[check]
             value = name.strip()
-            print("Species ", str(n), ":", value)
+            print("Species ", str(request_num), ":", value)
             pyot_resp = OT.find_trees(value=value, search_property='ot:ottTaxonName', verbose = True)
             data = pyot_resp.response_dict
             ## Test if Response is Valid
             for test in data:
                 if test == 'message':
-                    final_list[("No." + str(n))] = [value,0]
+                    tally += 1
+                    Mixed_OTT_list[("No." + str(tally))] = [value, 'Search Manually for Tree']
                     break
                 else:
             ## Add all Ott_Ids to single list
@@ -34,17 +39,22 @@ with open(masterfile, 'r') as base:
                         for ott_id in resp:
                             ott_id = resp['ot:studyId']
                             if ott_id not in Ott_list:
-                                Ott_list.append(ott_id)
-                                
+                                Ott_list.append(ott_id)     
             ## Create Dictionary of Lists
-                    short_list = [value, Ott_list]
-                    final_list[("No." + str(n))] = short_list
-                    # for i in range(0,len(Ott_list)):
-                        # num = str(n+i)
-                        
+                    for i in range(len(Ott_list)):
+                        short_list = [value, Ott_list[i]]
+                        tally += 1
+                        Mixed_OTT_list[("No." + str(tally))] = short_list
+            ## 
             print("Total Studies", str(len(Ott_list)))
-        if n >= 16:
+        if request_num >= 20:
                 break
 
-    print(final_list)                                                   
+    print(Mixed_OTT_list)                                                   
 
+
+with open("Subspecies_Ott_Search.csv", 'w', newline='') as file:
+    writer = csv.writer(file)
+    for line in Mixed_OTT_list:
+        writer.writerow([line, Mixed_OTT_list[line]])
+    file.close()
