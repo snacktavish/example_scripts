@@ -47,8 +47,8 @@ with open(masterfile, 'r') as base:
                         Mixed_OTT_list[("No." + str(tally))] = short_list
             ## 
             print("Total Studies", str(len(Ott_list)))
-        if request_num >= 250:
-                break
+        #if request_num >= 250:
+                #break
 
     print(Mixed_OTT_list)                                                   
 
