@@ -47,8 +47,6 @@ with open(masterfile, 'r') as base:
                         Mixed_OTT_list[("No." + str(tally))] = short_list
             ## 
             print("Total Studies", str(len(Ott_list)))
-       # if request_num >= 20:
-       #         break
 
     print(Mixed_OTT_list)                                                   
 
@@ -58,6 +56,7 @@ with open(masterfile, 'r') as base:
 
 with open("Subspecies_Ott_Search.csv", 'w', newline='') as file:
     writer = csv.writer(file)
+    writer.writerow([" ","OTT Name", "Study ID", "url"])
     for line in Mixed_OTT_list:
-        writer.writerow([line, Mixed_OTT_list[line]])
+        writer.writerow([line, Mixed_OTT_list[line][0], Mixed_OTT_list[line][1], "https://tree.opentreeoflife.org/curator/study/view/" + Mixed_OTT_list[line][1]])
     file.close()
