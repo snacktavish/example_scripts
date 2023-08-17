@@ -47,10 +47,13 @@ with open(masterfile, 'r') as base:
                         Mixed_OTT_list[("No." + str(tally))] = short_list
             ## 
             print("Total Studies", str(len(Ott_list)))
-        if request_num >= 20:
-                break
+       # if request_num >= 20:
+       #         break
 
     print(Mixed_OTT_list)                                                   
+
+## What would be handy here
+## is a list of the studies, with what taxa to check in that study.
 
 
 with open("Subspecies_Ott_Search.csv", 'w', newline='') as file:
